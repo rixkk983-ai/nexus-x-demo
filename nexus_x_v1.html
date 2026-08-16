@@ -1,0 +1,389 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>NEXUS X — Future Gaming Lab</title>
+<style>
+:root{
+  --bg:#070a12;--panel:#0d1220;--panel2:#111829;--line:#202a42;
+  --text:#eef4ff;--muted:#8e9bb7;--accent:#6ee7ff;--accent2:#9b7cff;
+  --good:#5df2a4;--danger:#ff6b7a;--shadow:0 20px 70px rgba(0,0,0,.35)
+}
+*{box-sizing:border-box} html,body{margin:0;min-height:100%;font-family:Inter,system-ui,-apple-system,Segoe UI,sans-serif;background:
+radial-gradient(circle at 20% 10%,rgba(110,231,255,.09),transparent 30%),
+radial-gradient(circle at 85% 25%,rgba(155,124,255,.11),transparent 32%),var(--bg);color:var(--text)}
+button,input{font:inherit} button{cursor:pointer}
+.app{min-height:100vh}.nav{height:72px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 5vw;backdrop-filter:blur(18px);position:sticky;top:0;z-index:20;background:rgba(7,10,18,.82)}
+.brand{display:flex;align-items:center;gap:12px;font-weight:900;letter-spacing:.14em}.logo{width:34px;height:34px;border:1px solid var(--accent);border-radius:10px;display:grid;place-items:center;box-shadow:0 0 22px rgba(110,231,255,.25);font-size:14px}.brand span{color:var(--accent)}
+.navlinks{display:flex;gap:8px;overflow:auto;max-width:72vw}.navlinks button{background:none;border:0;color:var(--muted);padding:10px 14px;border-radius:10px}.navlinks button:hover,.navlinks button.active{color:var(--text);background:#111829}
+.balance{display:none;border:1px solid var(--line);padding:9px 13px;border-radius:12px;background:#0c111d;color:var(--muted)}.balance b{color:var(--good)}
+main{width:min(1180px,92vw);margin:auto}.page{display:none}.page.active{display:block}
+.hero{min-height:calc(100vh - 72px);display:grid;place-items:center;text-align:center;padding:70px 0}.eyebrow{color:var(--accent);letter-spacing:.22em;font-size:12px;font-weight:800}.hero h1{font-size:clamp(48px,9vw,104px);line-height:.9;margin:18px 0;background:linear-gradient(110deg,#fff,var(--accent),#bcaeff);-webkit-background-clip:text;color:transparent;letter-spacing:-.055em}.hero p{max-width:650px;margin:0 auto 30px;color:var(--muted);font-size:17px;line-height:1.7}.actions{display:flex;justify-content:center;gap:12px;flex-wrap:wrap}.btn{border:1px solid var(--line);background:#111829;color:var(--text);padding:13px 20px;border-radius:12px;font-weight:800}.btn.primary{background:linear-gradient(135deg,#173a4a,#211b48);border-color:#385b70;box-shadow:0 0 30px rgba(110,231,255,.11)}.btn:hover{transform:translateY(-1px)}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:35px 0 70px}.card{background:linear-gradient(180deg,rgba(17,24,41,.9),rgba(11,16,28,.9));border:1px solid var(--line);border-radius:18px;padding:22px;box-shadow:var(--shadow)}.stat b{font-size:28px}.muted{color:var(--muted)}
+.section{padding:55px 0}.section h2{font-size:34px;margin:0 0 8px}.section>p{color:var(--muted)}
+.auth{min-height:calc(100vh - 72px);display:grid;place-items:center}.authbox{width:min(430px,100%);padding:30px}.authbox h2{margin-top:0;font-size:32px}.field{margin:14px 0}.field label{display:block;color:var(--muted);font-size:13px;margin-bottom:7px}.field input{width:100%;padding:13px 14px;background:#080d18;border:1px solid var(--line);border-radius:11px;color:var(--text);outline:none}.field input:focus{border-color:#46627d}.full{width:100%}.switch{margin-top:18px;text-align:center;color:var(--muted);font-size:14px}.switch button{background:none;border:0;color:var(--accent)}
+.gamehead{display:flex;justify-content:space-between;align-items:end;padding:44px 0 20px}.gamehead h1{margin:0;font-size:38px}.game-layout{display:grid;grid-template-columns:1.6fr .8fr;gap:18px;padding-bottom:60px}.arena{min-height:520px;position:relative;overflow:hidden;display:flex;flex-direction:column;justify-content:center;align-items:center;background:
+linear-gradient(180deg,rgba(8,15,29,.94),rgba(7,10,18,.98)),
+repeating-linear-gradient(90deg,transparent 0 59px,rgba(110,231,255,.035) 60px),
+repeating-linear-gradient(0deg,transparent 0 59px,rgba(110,231,255,.035) 60px)}
+.arena:before{content:"";position:absolute;inset:-30%;background:radial-gradient(circle,rgba(110,231,255,.12),transparent 34%);animation:pulse 3s infinite}.mult{position:relative;font-size:clamp(65px,9vw,115px);font-weight:900;letter-spacing:-.06em}.mult.live{color:var(--accent);text-shadow:0 0 35px rgba(110,231,255,.45)}.mult.crashed{color:var(--danger);text-shadow:0 0 35px rgba(255,107,122,.35)}.status{position:relative;color:var(--muted);margin:6px 0 26px}.rocket{position:absolute;font-size:70px;left:12%;bottom:18%;filter:drop-shadow(0 0 20px rgba(110,231,255,.5));transition:all .15s linear}.panel h3{margin-top:0}.wallet{display:flex;justify-content:space-between;align-items:center;padding:15px;background:#090f1b;border:1px solid var(--line);border-radius:12px;margin-bottom:15px}.wallet b{color:var(--good)}.betrow{display:grid;grid-template-columns:1fr 1fr;gap:10px}.betrow input{width:100%;padding:13px;background:#080d18;border:1px solid var(--line);border-radius:10px;color:var(--text)}.history{margin-top:18px}.rounds{display:flex;gap:7px;flex-wrap:wrap}.round{padding:7px 9px;border-radius:8px;background:#121a2b;border:1px solid var(--line);font-size:12px}.round.good{color:var(--good)}.round.bad{color:var(--danger)}
+.note{font-size:12px;color:var(--muted);line-height:1.5;margin-top:14px}.toast{position:fixed;right:20px;bottom:20px;background:#101829;border:1px solid var(--line);padding:13px 16px;border-radius:12px;display:none;z-index:50}.toast.show{display:block}
+footer{padding:25px 5vw;border-top:1px solid var(--line);color:#69758e;text-align:center;font-size:12px}
+@keyframes pulse{50%{transform:scale(1.12);opacity:.7}}
+@media(max-width:800px){.nav{padding:0 3vw}.navlinks button{padding:9px 8px}.brand{font-size:13px}.balance{display:none}.grid,.game-layout{grid-template-columns:1fr}.game-layout{padding-bottom:30px}.arena{min-height:430px}.gamehead{align-items:start;gap:15px;flex-direction:column}}
+</style>
+</head>
+<body>
+<div class="app">
+<header class="nav">
+  <div class="brand"><div class="logo">NX</div>NEXUS <span>X</span></div>
+  <nav class="navlinks">
+    <button data-page="home" class="active">Home</button>
+    <button data-page="game">Quantum Crash</button>
+    <button data-page="lab">Prediction Lab</button>
+    <button data-page="leaderboard">Leaderboard</button>
+    <button data-page="economics">Economics</button>
+    <button data-page="auth" id="authNav">Login</button>
+  </nav>
+  <div class="balance" id="navBalance">🪙 <b id="navCoins">10,000</b></div>
+</header>
+
+<main>
+<section id="home" class="page active">
+  <div class="hero">
+    <div>
+      <div class="eyebrow">FUTURE GAMING LAB • EDUCATIONAL SIMULATION</div>
+      <h1>NEXUS X</h1>
+      <p>Explore a futuristic real-time gaming platform concept built for learning. Experiment with probability, game mechanics and digital product design using virtual Demo Coins only.</p>
+      <div class="actions">
+        <button class="btn primary" data-page="game">🚀 Launch Quantum Crash</button>
+        <button class="btn" data-page="auth">👤 Create Demo Account</button>
+      </div>
+      <div class="grid">
+        <div class="card stat"><div class="muted">Demo Players</div><b>1,248</b></div>
+        <div class="card stat"><div class="muted">Simulated Rounds</div><b>24,631</b></div>
+        <div class="card stat"><div class="muted">Avg. Multiplier</div><b>2.74x</b></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="auth" class="page">
+  <div class="auth">
+    <div class="card authbox">
+      <div class="eyebrow">DEMO ACCESS</div>
+      <h2 id="authTitle">Create your demo profile</h2>
+      <p class="muted" id="authSub">No real money. No payments. Just a classroom simulation.</p>
+      <div class="field"><label>Username</label><input id="username" placeholder="e.g. KashimX"></div>
+      <div class="field"><label>Password</label><input id="password" type="password" placeholder="••••••••"></div>
+      <button class="btn primary full" id="authBtn">CREATE DEMO ACCOUNT</button>
+      <div class="switch"><span id="switchText">Already have a demo account?</span> <button id="switchAuth">Login</button></div>
+    </div>
+  </div>
+</section>
+
+<section id="game" class="page">
+  <div class="gamehead">
+    <div><div class="eyebrow">SIMULATION MODULE</div><h1>Quantum Crash</h1></div>
+    <div class="muted">Session: <b id="sessionName">Guest</b></div>
+  </div>
+  <div class="game-layout">
+    <div class="card arena">
+      <div class="mult" id="mult">1.00x</div>
+      <div class="status" id="status">Ready for launch</div>
+      <div class="rocket" id="rocket">🚀</div>
+      <button class="btn primary" id="launch">LAUNCH ROUND</button>
+    </div>
+    <aside class="card panel">
+      <h3>Demo Wallet</h3>
+      <div class="wallet"><span>Available</span><b>🪙 <span id="coins">10,000</span></b></div>
+      <div class="field"><label>Demo Coins</label><input id="bet" type="number" min="10" max="1000" value="100"></div>
+      <button class="btn primary full" id="collect" disabled>COLLECT</button>
+      <p class="note">Educational simulation only. Demo Coins have no monetary value and cannot be deposited, withdrawn or exchanged.</p>
+      <div class="history">
+        <h3>Round History</h3>
+        <div class="rounds" id="rounds"><span class="muted">No rounds yet.</span></div>
+      </div>
+    </aside>
+  </div>
+</section>
+
+<section id="lab" class="page">
+  <div class="section">
+    <div class="eyebrow">ANALYTICS MODULE</div>
+    <h2>Prediction Lab</h2>
+    <p>Explore probability and randomness using the demo round history. This module is educational and does not predict real outcomes.</p>
+    <div class="grid">
+      <div class="card stat"><div class="muted">Rounds Analysed</div><b id="labRounds">0</b></div>
+      <div class="card stat"><div class="muted">Average Multiplier</div><b id="labAvg">—</b></div>
+      <div class="card stat"><div class="muted">Highest Demo Round</div><b id="labHigh">—</b></div>
+    </div>
+    <div class="card" style="margin-bottom:18px">
+      <h3>Randomness Explorer</h3>
+      <p class="muted">Each simulated round is generated independently. Past results are displayed for analysis, not as a reliable predictor of the next round.</p>
+      <div id="labBars" style="display:flex;align-items:end;gap:8px;height:180px;padding:15px 0"></div>
+      <button class="btn primary" id="refreshLab">Refresh Analysis</button>
+    </div>
+    <div class="grid">
+      <div class="card"><h3>Mean</h3><div id="labMean" class="stat"><b>—</b></div><p class="note">Arithmetic average of recorded demo rounds.</p></div>
+      <div class="card"><h3>Median</h3><div id="labMedian" class="stat"><b>—</b></div><p class="note">Middle value after sorting the recorded demo rounds.</p></div>
+      <div class="card"><h3>Takeaway</h3><p class="muted">A streak in historical demo results does not establish a dependable pattern for the next independent simulation.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="leaderboard" class="page">
+  <div class="section">
+    <div class="eyebrow">COMMUNITY MODULE</div>
+    <h2>Demo Leaderboard</h2>
+    <p>Fictional leaderboard data for the classroom prototype. No real users or money are involved.</p>
+    <div class="card" style="overflow:auto">
+      <table style="width:100%;border-collapse:collapse;min-width:560px">
+        <thead><tr style="text-align:left;color:var(--muted)">
+          <th style="padding:14px">#</th><th>Player</th><th>XP</th><th>Best Round</th><th>Rounds</th>
+        </tr></thead>
+        <tbody id="leaderRows"></tbody>
+      </table>
+    </div>
+    <div class="grid">
+      <div class="card"><h3>🏆 Top Performer</h3><b id="topPlayer">—</b><p class="muted" id="topScore">—</p></div>
+      <div class="card"><h3>⚡ Highest Flight</h3><b id="topFlight">—</b><p class="muted">Best fictional demo round</p></div>
+      <div class="card"><h3>🧪 Simulation Status</h3><b style="color:var(--good)">● ONLINE</b><p class="muted">Demo dataset active</p></div>
+    </div>
+  </div>
+</section>
+
+
+<section id="economics" class="page">
+  <div class="section">
+    <div class="eyebrow">EDUCATIONAL MODULE</div>
+    <h2>Real-Money Economics Simulator</h2>
+    <p>This screen uses simulated ₹ values only. No deposits, payments or withdrawals are connected.</p>
+
+    <div class="grid">
+      <div class="card stat"><div class="muted">Simulated Starting Bankroll</div><b>₹<span id="ecoStart">1,000</span></b></div>
+      <div class="card stat"><div class="muted">Current Demo Balance</div><b>₹<span id="ecoBalance">1,000</span></b></div>
+      <div class="card stat"><div class="muted">Simulated Loss</div><b>₹<span id="ecoLoss">0</span></b></div>
+    </div>
+
+    <div class="game-layout">
+      <div class="card">
+        <h3>Wager Simulation</h3>
+        <div class="wallet"><span>Virtual bankroll</span><b>₹<span id="ecoBank">1,000</span></b></div>
+        <div class="field"><label>Simulated stake</label><input id="ecoStake" type="number" min="10" max="500" value="100"></div>
+        <button class="btn primary full" id="ecoRound">RUN SIMULATED ROUND</button>
+        <p class="note">This deliberately does not connect to any payment provider. The ₹ symbol represents points in the classroom simulation.</p>
+        <div class="history">
+          <h3>Simulation History</h3>
+          <div class="rounds" id="ecoHistory"><span class="muted">No simulated rounds yet.</span></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>Platform Economics</h3>
+        <div class="wallet"><span>Total simulated wagered</span><b>₹<span id="ecoWagered">0</span></b></div>
+        <div class="wallet"><span>Player return</span><b>₹<span id="ecoReturned">0</span></b></div>
+        <div class="wallet"><span>Simulated house result</span><b>₹<span id="ecoHouse">0</span></b></div>
+        <div class="wallet"><span>Simulated RTP</span><b><span id="ecoRtp">0.00</span>%</b></div>
+        <div class="wallet"><span>Illustrative house edge</span><b><span id="ecoEdge">0.00</span>%</b></div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:18px">
+      <h3>What this demonstrates</h3>
+      <p class="muted">The simulator tracks how much is staked, how much is returned and the resulting balance. It is designed to explain variance, expected value, RTP and house edge—not to predict or encourage real gambling.</p>
+    </div>
+  </div>
+</section>
+
+</main>
+<footer>NEXUS X V1 • Educational prototype • Virtual Demo Coins only</footer>
+<div class="toast" id="toast"></div>
+</div>
+
+<script>
+const $=s=>document.querySelector(s);
+let loggedIn=false, isRegister=true, coins=10000, running=false, multiplier=1, timer=null, startTime=0, crashAt=0, currentBet=100;
+let rounds=[];
+
+function fmt(n){return Math.floor(n).toLocaleString('en-IN')}
+function toast(msg){const t=$('#toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2200)}
+function showPage(id){
+ document.querySelectorAll('.page').forEach(x=>x.classList.toggle('active',x.id===id));
+ document.querySelectorAll('.navlinks button').forEach(x=>x.classList.toggle('active',x.dataset.page===id));
+ if(id==='game') updateUI();
+ window.scrollTo({top:0,behavior:'smooth'});
+}
+document.addEventListener('click',e=>{
+ const b=e.target.closest('[data-page]'); if(b) showPage(b.dataset.page);
+});
+$('#authNav').onclick=()=>showPage(loggedIn?'game':'auth');
+
+$('#switchAuth').onclick=()=>{
+ isRegister=!isRegister;
+ $('#authTitle').textContent=isRegister?'Create your demo profile':'Welcome back';
+ $('#authSub').textContent=isRegister?'No real money. No payments. Just a classroom simulation.':'Use your demo credentials to enter the simulation.';
+ $('#authBtn').textContent=isRegister?'CREATE DEMO ACCOUNT':'LOGIN TO DEMO';
+ $('#switchText').textContent=isRegister?'Already have a demo account?':'Need a demo account?';
+ $('#switchAuth').textContent=isRegister?'Login':'Register';
+};
+
+$('#authBtn').onclick=()=>{
+ const name=$('#username').value.trim();
+ if(!name){toast('Enter a username first.');return}
+ loggedIn=true; $('#sessionName').textContent=name; $('#authNav').textContent='Play';
+ localStorage.setItem('nexusUser',name);
+ toast(isRegister?'Demo profile created!':'Demo login successful!');
+ showPage('game');
+};
+const saved=localStorage.getItem('nexusUser');
+if(saved){loggedIn=true;$('#sessionName').textContent=saved;$('#authNav').textContent='Play'}
+
+function updateUI(){
+ $('#coins').textContent=fmt(coins); $('#navCoins').textContent=fmt(coins);
+ $('#navBalance').style.display=loggedIn?'block':'none';
+}
+function randomCrash(){
+ // Educational pseudo-random simulation; not a gambling implementation.
+ const r=Math.random();
+ return Math.max(1.05,Math.min(12, +(1 + (-Math.log(1-r))*1.55).toFixed(2)));
+}
+function finishRound(cashed){
+ running=false; clearInterval(timer); $('#collect').disabled=true; $('#launch').disabled=false;
+ const result=cashed?multiplier:crashAt;
+ rounds.unshift({x:result,good:cashed});
+ rounds=rounds.slice(0,14);
+ $('#rounds').innerHTML=rounds.map(r=>`<span class="round ${r.good?'good':'bad'}">${r.x.toFixed(2)}x</span>`).join('');
+ if(!cashed){ $('#mult').textContent=crashAt.toFixed(2)+'x'; $('#mult').className='mult crashed'; $('#status').textContent='QUANTUM BREAK'; toast('Round ended. Demo coins settled.');}
+ else { $('#mult').className='mult live'; $('#status').textContent='Collected at '+multiplier.toFixed(2)+'x'; toast('Collected '+fmt(Math.floor(currentBet*multiplier))+' demo coins!');}
+ updateUI();
+}
+$('#launch').onclick=()=>{
+ if(running)return;
+ let bet=Number($('#bet').value);
+ if(!Number.isFinite(bet)||bet<10||bet>1000){toast('Demo bet must be 10–1,000 coins.');return}
+ if(bet>coins){toast('Not enough Demo Coins.');return}
+ currentBet=Math.floor(bet); coins-=currentBet; updateUI();
+ running=true; multiplier=1; crashAt=randomCrash(); startTime=performance.now();
+ $('#launch').disabled=true; $('#collect').disabled=false; $('#mult').className='mult live'; $('#status').textContent='Quantum flight in progress…';
+ $('#rocket').style.left='12%'; $('#rocket').style.bottom='18%';
+ timer=setInterval(()=>{
+   const elapsed=(performance.now()-startTime)/1000;
+   multiplier=+(Math.exp(elapsed*0.18)).toFixed(2);
+   $('#mult').textContent=multiplier.toFixed(2)+'x';
+   $('#rocket').style.left=Math.min(82,12+elapsed*7)+'%';
+   $('#rocket').style.bottom=Math.min(78,18+elapsed*4)+'%';
+   if(multiplier>=crashAt) finishRound(false);
+ },80);
+};
+$('#collect').onclick=()=>{
+ if(!running)return;
+ coins += Math.floor(currentBet*multiplier);
+ finishRound(true);
+};
+updateUI();
+
+// --- Prediction Lab + Leaderboard ---
+const demoLeaderboard = [
+  {name:"ShadowX",xp:84200,best:8.42,rounds:412},
+  {name:"QuantumKid",xp:72450,best:7.16,rounds:365},
+  {name:"NovaPlayer",xp:68120,best:6.84,rounds:331},
+  {name:"CyberFox",xp:61800,best:6.31,rounds:298},
+  {name:"OrbitOne",xp:57420,best:5.92,rounds:274},
+  {name:"NeonByte",xp:53100,best:5.47,rounds:249},
+  {name:"You",xp:54320,best:4.86,rounds:147}
+];
+
+function labStats(){
+  const vals=rounds.map(r=>r.x);
+  $('#labRounds').textContent=vals.length;
+  if(!vals.length){
+    $('#labAvg').textContent='—'; $('#labHigh').textContent='—';
+    $('#labMean').innerHTML='<b>—</b>'; $('#labMedian').innerHTML='<b>—</b>';
+    $('#labBars').innerHTML='<span class="muted">Play a few demo rounds to populate the analysis.</span>';
+    return;
+  }
+  const sorted=[...vals].sort((a,b)=>a-b);
+  const mean=vals.reduce((a,b)=>a+b,0)/vals.length;
+  const median=sorted.length%2 ? sorted[(sorted.length-1)/2] : (sorted[sorted.length/2-1]+sorted[sorted.length/2])/2;
+  $('#labAvg').textContent=mean.toFixed(2)+'x';
+  $('#labHigh').textContent=Math.max(...vals).toFixed(2)+'x';
+  $('#labMean').innerHTML='<b>'+mean.toFixed(2)+'x</b>';
+  $('#labMedian').innerHTML='<b>'+median.toFixed(2)+'x</b>';
+  const max=Math.max(...vals,1);
+  $('#labBars').innerHTML=vals.slice(0,18).reverse().map((v,i)=>{
+    const h=Math.max(8,Math.min(100,(v/max)*100));
+    return `<div title="${v.toFixed(2)}x" style="flex:1;height:${h}%;min-width:10px;border-radius:6px 6px 2px 2px;background:linear-gradient(180deg,var(--accent),var(--accent2));opacity:.85"></div>`;
+  }).join('');
+}
+function renderLeaderboard(){
+  const sorted=[...demoLeaderboard].sort((a,b)=>b.xp-a.xp);
+  $('#leaderRows').innerHTML=sorted.map((p,i)=>`
+    <tr style="border-top:1px solid var(--line)">
+      <td style="padding:15px;font-weight:800">${i+1}</td>
+      <td>${p.name}${p.name==='You'?' <span class="muted">(demo)</span>':''}</td>
+      <td>${p.xp.toLocaleString('en-IN')}</td>
+      <td>${p.best.toFixed(2)}x</td>
+      <td>${p.rounds}</td>
+    </tr>`).join('');
+  const top=sorted[0];
+  $('#topPlayer').textContent=top.name;
+  $('#topScore').textContent=top.xp.toLocaleString('en-IN')+' XP';
+  $('#topFlight').textContent=Math.max(...sorted.map(x=>x.best)).toFixed(2)+'x';
+}
+$('#refreshLab').onclick=()=>{labStats();toast('Analysis refreshed from demo rounds.');};
+
+// Extend page navigation without changing existing flow.
+const originalShowPage = showPage;
+showPage = function(id){
+  originalShowPage(id);
+  if(id==='lab') labStats();
+  if(id==='leaderboard') renderLeaderboard();
+};
+labStats();
+renderLeaderboard();
+
+
+// --- Real-Money Economics Simulator (virtual only) ---
+let ecoBalance=1000, ecoStart=1000, ecoWagered=0, ecoReturned=0, ecoRounds=[];
+function ecoUpdate(){
+  const loss=Math.max(0,ecoStart-ecoBalance);
+  $('#ecoStart').textContent=ecoStart.toLocaleString('en-IN');
+  $('#ecoBalance').textContent=Math.max(0,Math.floor(ecoBalance)).toLocaleString('en-IN');
+  $('#ecoBank').textContent=Math.max(0,Math.floor(ecoBalance)).toLocaleString('en-IN');
+  $('#ecoLoss').textContent=Math.floor(loss).toLocaleString('en-IN');
+  $('#ecoWagered').textContent=Math.floor(ecoWagered).toLocaleString('en-IN');
+  $('#ecoReturned').textContent=Math.floor(ecoReturned).toLocaleString('en-IN');
+  const rtp=ecoWagered?ecoReturned/ecoWagered*100:0;
+  const edge=100-rtp;
+  $('#ecoRtp').textContent=rtp.toFixed(2);
+  $('#ecoEdge').textContent=edge.toFixed(2);
+  $('#ecoHouse').textContent=Math.floor(ecoWagered-ecoReturned).toLocaleString('en-IN');
+  $('#ecoHistory').innerHTML=ecoRounds.length?ecoRounds.map(x=>`<span class="round ${x.returned>=x.stake?'good':'bad'}">Stake ₹${x.stake} → Return ₹${x.returned}</span>`).join(''):'<span class="muted">No simulated rounds yet.</span>';
+}
+$('#ecoRound').onclick=()=>{
+  const stake=Math.floor(Number($('#ecoStake').value));
+  if(!Number.isFinite(stake)||stake<10||stake>500){toast('Simulated stake must be ₹10–₹500.');return}
+  if(stake>ecoBalance){toast('Simulation balance is too low.');return}
+  // Educational stochastic model: mostly losses, occasional variable returns.
+  const r=Math.random();
+  let returned=0;
+  if(r<0.52) returned=0;
+  else if(r<0.82) returned=Math.floor(stake*(0.35+Math.random()*0.55));
+  else if(r<0.96) returned=Math.floor(stake*(1.05+Math.random()*1.1));
+  else returned=Math.floor(stake*(2.5+Math.random()*4));
+  ecoBalance-=stake;
+  ecoBalance+=returned;
+  ecoWagered+=stake;
+  ecoReturned+=returned;
+  ecoRounds.unshift({stake,returned});
+  ecoRounds=ecoRounds.slice(0,20);
+  ecoUpdate();
+  toast(returned>=stake?`Simulated return: ₹${returned}`:`Simulated loss: ₹${stake-returned}`);
+};
+ecoUpdate();
+
+</script>
+</body>
+</html>
